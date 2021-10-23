@@ -28,7 +28,20 @@ class Search extends React.Component {
   searchRequest = (query) => {
         search(query).then((result) => {
         if (Array.isArray(result)) {
-          this.setState({booksResult: result})
+          let storedBooks = localStorage.getItem('books')
+          if(storedBooks != null){
+            let books = JSON.parse(storedBooks);
+            this.setState({booksResult: result.map(b=>{
+              let foundBook = books.find(_b=> _b.id == b.id);
+              if(foundBook){
+                b['shelf'] = foundBook.shelf
+              }
+              return b
+            })})
+          }else{
+            this.setState({booksResult: result})
+          }
+          
       } else {
         this.setState({booksResult: []})
         }

@@ -11,7 +11,10 @@ class BooksApp extends React.Component {
     }
     
   componentDidMount () {
-    BooksAPI.getAll().then( e => this.setState ({books : e}))
+    BooksAPI.getAll().then( e => this.setState ({books : e})).then(()=>{
+      localStorage.setItem('books', JSON.stringify(this.state.books))
+    })
+    
   }
   
 
