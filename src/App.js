@@ -8,6 +8,7 @@ import {Route} from 'react-router-dom'
 class BooksApp extends React.Component {
   state = {
     books: [],
+    shelves: [],
     }
     
   componentDidMount () {
@@ -19,7 +20,9 @@ class BooksApp extends React.Component {
   
 
   changeShelf = (book, shelf) => {
-    BooksAPI.update(book,shelf);
+    BooksAPI.update(book,shelf).then(()=> {BooksAPI.getAll().then( e => this.setState ({books : e})).then(()=>{
+      localStorage.setItem('books', JSON.stringify(this.state.books))
+    })})
   } 
 
   
